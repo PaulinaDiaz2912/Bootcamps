@@ -19,7 +19,7 @@ h1 {
     margin: 0;
 }
 
-section h2 {
+ h2 {
     color: #058edd;
     margin-top: 0;
 }
@@ -34,17 +34,29 @@ section h2 {
     margin-bottom: 80px;
     grid-template-areas:
         "header     header      header"     /* Fila 1: el header ocupa las 3 columnas */
-        "sidebar    contenido1  contenido1" /* Fila 2: sidebar a la izquierda, contenido principal a la derecha */
-        "sidebar    contenido2  contenido3" /* Fila 3: sidebar permanece, dos contenidos al lado */
+        "sidebar    contenido1  contenido2" /* Fila 2: sidebar a la izquierda, contenido principal a la derecha */
+        "sidebar    contenido3  contenido3" /* Fila 3: sidebar permanece, dos contenidos al lado */
         "footer     footer      footer";    /* Fila 4: footer ocupa las 3 columnas */
 }
+
+/*Para ajustar la ubicacion de los elementos usamos "grid-area#*/
 
 .sidebar {
     grid-area: sidebar;
     background-color: #cbdfea;
     padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.contenido1 {
+    grid-area: contenido1;
+}
+.contenido2 {
+    grid-area: contenido2;
+}
+.contenido3 {
+    grid-area: contenido3;
 }
 
 .sidebar h2 {
@@ -70,29 +82,15 @@ section h2 {
     color: #fff;
 }
 
-.contenido1, .contenido2, .contenido3 {
+section{
     background-color: #fff;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 20px
 }
 
-.contenido1 {
-    grid-area: contenido1;
-}
-.contenido2 {
-    grid-area: contenido2;
-}
-.contenido3 {
-    grid-area: contenido3;
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
-    display: block;
-    margin: 10px auto;
+p{
+    font-size: 1.2em;
+    color: #333;
+   
 }
 
 footer {
@@ -106,12 +104,7 @@ footer {
     width: 100%;
 }
 
-.email {
-    color: #8fc2df;
-    text-decoration: none;
-}
-
-.flex-container {
+.flex-container{
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -123,10 +116,10 @@ footer {
     flex: 1;
     min-width: 250px;
     background-color: #fff;
-    border-radius: 8px;
+    border-radius: 10px;
     padding: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin: 10px;
+    margin: 5px;
     text-align: center;
 }
 
@@ -147,7 +140,6 @@ footer {
         grid-template-columns: 1fr; /* Una sola columna */
     }
 }
-
 
 
 
