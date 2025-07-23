@@ -149,9 +149,7 @@ footer {
         grid-template-areas:
             "header"
             "sidebar"
-            "contenido1"
-            "contenido2"
-            "contenido3"
+            "portfolio"
             "footer";
         grid-template-columns: 1fr; 
     }
