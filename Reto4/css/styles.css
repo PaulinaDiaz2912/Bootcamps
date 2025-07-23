@@ -1,0 +1,155 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #ddefeff6;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    grid-area: header;
+    background-color: #058edd;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+h1 {
+    margin: 0;
+}
+
+section h2 {
+    color: #058edd;
+    margin-top: 0;
+}
+
+.layout-grid {
+    display: grid;                          /* Activa el modelo de diseño en cuadrícula (CSS Grid) */
+    grid-template-columns: 1fr 2fr 2fr;     /* Define tres columnas: una estrecha y dos más anchas */
+    grid-template-rows: auto 1fr 1fr auto;  /* Define cuatro filas: header, dos de contenido y footer */
+    gap: 20px;                              /* Espacio entre filas y columnas */
+    padding: 20px;                          /* Espacio interno alrededor del grid */
+    margin-top: 0px;
+    margin-bottom: 80px;
+    grid-template-areas:
+        "header     header      header"     /* Fila 1: el header ocupa las 3 columnas */
+        "sidebar    contenido1  contenido1" /* Fila 2: sidebar a la izquierda, contenido principal a la derecha */
+        "sidebar    contenido2  contenido3" /* Fila 3: sidebar permanece, dos contenidos al lado */
+        "footer     footer      footer";    /* Fila 4: footer ocupa las 3 columnas */
+}
+
+.sidebar {
+    grid-area: sidebar;
+    background-color: #cbdfea;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar h2 {
+    color: #058edd;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 10px;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s;
+}
+
+.sidebar ul li a:hover {
+    color: #fff;
+}
+
+.contenido1, .contenido2, .contenido3 {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.contenido1 {
+    grid-area: contenido1;
+}
+.contenido2 {
+    grid-area: contenido2;
+}
+.contenido3 {
+    grid-area: contenido3;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    display: block;
+    margin: 10px auto;
+}
+
+footer {
+    grid-area: footer;
+    background-color: #058edd;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.email {
+    color: #8fc2df;
+    text-decoration: none;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.flex-item {
+    flex: 1;
+    min-width: 250px;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 10px;
+    text-align: center;
+}
+
+/*  
+    Reorganiza el contenido para que en pantallas móviles
+    se visualice cada elemento UNO DEBAJO DEL OTRO
+*/
+
+@media (max-width: 768px) {
+    .layout-grid {
+        grid-template-areas:
+            "header"
+            "sidebar"
+            "contenido1"
+            "contenido2"
+            "contenido3"
+            "footer";
+        grid-template-columns: 1fr; /* Una sola columna */
+    }
+}
+
+
+
+
+
+
