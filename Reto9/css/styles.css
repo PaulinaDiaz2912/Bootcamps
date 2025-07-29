@@ -60,6 +60,9 @@ body{
 canvas{
     margin: 0 auto;
     display: grid;
+
+    height: 120%;
+
 }
 
 .footer{
