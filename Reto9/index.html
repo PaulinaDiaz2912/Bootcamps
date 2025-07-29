@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="https://"></script>
+    <title>Visualización de Energías Renovables</title>
+</head>
+
+<body>
+
+    <header class="header">
+        <h1>Visualización de Energías Renovables</h1>
+    </header>
+
+    <nav class="navbar">
+        <ul>
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#grafioPaises">Paises</a></li>
+            <li><a href="#graficoRegiones">Regiones</a></li>
+            <li><a href="#graficoComparativo">Evolución</a></li>
+        </ul>
+    </nav>
+
+    <div class="main-content">
+         <section class="grafico" id="graficoPaises">
+            <h2>Top 20 Países con Mayor Producción de Energía Renovable</h2>
+            <canvas id="graficoBarrasPaises"></canvas>
+         </section>
+
+         <section class="grafico" id="graficoRegiones">
+            <h2>Producción de Energía Renovable por Regiones</h2>
+            <canvas id="graficoBarrasRegiones"></canvas>
+         </section>
+
+         <section class="grafico" id="graficoComparativo">
+            <h2>Comparativa de Producción De Energía Renovable - Colombia vs Suramérica (1995-2021)</h2>
+            <canvas id="graficoLineasComparativa"></canvas>
+         </section>
+        
+    </div>
+
+    <footer class="footer">
+        <p>Creado por Paulina Diaz 
+            <a href="mailto:paulina.diazb@udea.edu.co" class="correo">✉️ Contacto</a>
+        </p>
+    </footer>
+
+
+    <script src="js/scripts.js"></script>
+</body>
+
+</html>
