@@ -1,161 +1,143 @@
 //Configuracion de Supabase
 const SUPABASE_URL = 'https://pepmpdpjhiieakmrplug.supabase.co';
-const SUPABASE_ANON_KEY ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlcG1wZHBqaGlpZWFrbXJwbHVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM4OTA0MzMsImV4cCI6MjA2OTQ2NjQzM30.WVMIJyGGW397PoaV1CN6z_J7JfS0OODV0g6pUHl-6BY';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBlcG1wZHBqaGlpZWFrbXJwbHVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM4OTA0MzMsImV4cCI6MjA2OTQ2NjQzM30.WVMIJyGGW397PoaV1CN6z_J7JfS0OODV0g6pUHl-6BY';
 
-const supabase = window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-document.addEventListener('DOMContentLoaded',asyncfunctio){
+document.addEventListener('DOMContentLoaded', async function () {
     //Autenticación Anónima
     await supabase.auth.signInAnonymously();
 
+    //Ejecutar todas las funciones
+    fetchTop20Paises();
+    fetchTopRegiones();
+    fetchColombiaVsSuramerica();
+
 
     //Gráfico de Barras de Top 20 de países con mayor producción de energía renovable
-    fetch('data/top_20_paises.json')
-        .then(response => response.json())
-        .then(data => {
-             const ctx =document.getElementById('graficoBarrasPaises').getContext('2d');
-             new Chart(ctx, {
-                type:'bar',
-                data:{
-                    labels: data.map(item => item.pais),
-                    datasets:[{
-                        label:'Porcentaje de Energía Renovable',
-                        data: data.map(item => item['promedio_renovables']),
-                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWhidth:1
-                    }]
-                },
-                options:{
-                    responsive: true,
-                    scales: {
-                        y:{ 
-                            beginAtZero: true,
-                            titule:{
-                                display: true,
-                                text: 'Porcentaje(%)'
-                            }
-                        },
-                        x:{
-                            titule:{
-                                display: true,
-                                text: 'Paises'
-                            }
+    async function fetchTop20Paises() {
+        const { data, error } = await supabase
+            .from('top_20_paises')
+            .select('*')
+            .order('promedio_renovables', { ascending: false })
+            .limit(20);
+
+        if (error) throw error;
+
+        createBarChart('graficoBarrasPaises', data, 'pais', 'promedio_renovables', 'Porcentaje de Energia Renovable', 'rgba(54, 162, 235, 0.6)')
+    }
+
+    //Grafico de Barras de Producción de Energía Renovable por Regiones
+    async function fetchTopRegiones() {
+        const { data, error } = await supabase
+            .from('top_regiones')
+            .select('*')
+            .order('promedio_renovables', { ascending: false });
+
+        if (error) throw error;
+
+        createBarChart('graficoBarrasRegiones', data, 'region', 'promedio_renovables', 'Porcentaje de Energia Renovable por Region', 'rgba(128, 196, 252, 0.6)')
+    }
+
+    //Funcion para crear gráficos de barras
+    function createBarChart(canvasId, data, labelField, dataField, label, backgroundColor) {
+        const ctx = document.getElementById(canvasId).getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data.map(item => item[labelField]),
+                datasets: [{
+                    label: label,
+                    data: data.map(item => item[dataField]),
+                    backgroundColor: backgroundColor,
+                    borderColor: backgroundColor.replace('0.6', '1'),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        titule: {
+                            display: true,
+                            text: 'Porcentaje(%)'
+                        }
+                    },
+                    x: {
+                        titule: {
+                            display: true,
+                            text: canvasId.includes('Paises') ? 'Paises' : 'Regiones'
                         }
                     }
                 }
-             });
+            }
+        })
+    }
 
-        });
+    //Gráfico Comparativo de Líneas
+    async function fetchColombiaVsSuramerica() {
+        const { data, error } = await supabase
+            .from('colombia_suramerica')
+            .select('*')
+            .lte('anno', 2021)
+            .order('anno', { ascending: true });
 
-        //Grafico de Barras de Producción de Energía Renovable por Regiones
-        fetch('data/top_regiones.json')
-          .then(response=> response.json())
-          .then(data => {
-            const ctx =document.getElementById('graficoBarrasRegiones').getContext('2d');
-            new Chart(ctx, {
-               type:'bar',
-               data:{
-                   labels: data.map(item => item.region),
-                   datasets:[{
-                       label:'Porcentaje de Energía Renovable',
-                       data: data.map(item => item['promedio_renovables']),
-                       backgroundColor: '#fbb7eb',
-                       borderColor: 'fbb7eb',
-                       borderWhidth:1
-                   }]
-               },
-               options:{
-                   responsive: true,
-                   scales: {
-                       y:{ 
-                           beginAtZero: true,
-                           titule:{
-                               display: true,
-                               text: 'Porcentaje(%)'
-                           }
-                       },
-                       x:{
-                           titule:{
-                               display: true,
-                               text: 'Regiones'
-                           }
-                       }
-                   }
-               }
-            });
-        });
-    
-        //Grafico comparativo
-         fetch('data/top_regiones.json')
-          .then(response=> response.json())
-          .then(data => {
-            const ctx =document.getElementById('graficoBarrasRegiones').getContext('2d');
-            new Chart(ctx, {
-               type:'bar',
-               data:{
-                   labels: data.map(item => item.region),
-                   datasets:[{
-                       label:'Porcentaje de Energía Renovable',
-                       data: data.map(item => item['promedio_renovables']),
-                       backgroundColor: '#fbb7eb',
-                       borderColor: 'fbb7eb',
-                       borderWhidth:1
-                   }]
-               },
-               options:{
-                   responsive: true,
-                   scales: {
-                       y:{ 
-                           beginAtZero: true,
-                           titule:{
-                               display: true,
-                               text: 'Porcentaje(%)'
-                           }
-                       },
-                       x:{
-                           titule:{
-                               display: true,
-                               text: 'Regiones'
-                           }
-                       }
-                   }
-               }
-            });
-        });
-    
-        //Grafico de Líneas de Comparativa de Producción de Energía Renovable - Colombia vs Suramerica
-        fetch('data/colombia_suramerica.json')
-           .then(response=> response.json())
-           .then(data=> {
-               const filteredData = data.filter(item => item.anno <= 2021);
-               const ctx = document.getElementById('graficoLineasComparativa').getContext('2d');
-               new Chart(ctx, {
-                   type:'line',
-                   data:{
-                    labels: [...new Set(filteredData.map(item => item.anno))],
-                    datasets: [
-                        {
-                            label: 'Colombia',
-                            data: filteredData.filter(item => item.region === 'Colombia').map(item => item.renovables),
-                            borderColor: '#fbb7eb',
-                            backgroundColor: '#fbb7eb',
-                            fill: false,
-                            borderWidth: 1,
-                            tension: 0.1
-                        },
-                        {
-                            label: 'South America',
-                            data: filteredData.filter(item => item.region === 'South America').map(item => item.renovables),
-                            borderColor: 'rgba(54, 162, 235, 0.6)',
-                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                            fill: false,
-                            borderWidth: 1,
-                            tension: 0.1
-                        },
-                    ]
-                   }
-               })
-           });
+        if (error) throw error;
+        //Procesar los datos que vienen de la Consulta
+        const colombiaData = data.filter(item => item.region === 'Colombia');
+        const suramericaData = data.filter(item => item.region === 'South America');
+        const years =  [...new Set(data.map(item => item.anno))] ;
+        console.log(years)
+
+
+        const ctx = document.getElementById('graficoLineasComparativa').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: years,
+                datasets: [
+                    {
+                        label: 'Colombia',
+                        data: colombiaData.map(item => item.renovables),
+                        borderColor: '#fbb7eb',
+                        backgroundColor: '#fbb7eb',
+                        fill: false,
+                        borderWidth: 1,
+                        tension: 0.1
+                    },
+                    {
+                        label: 'South America',
+                        data: suramericaData.map(item => item.renovables),
+                        borderColor: 'rgba(54, 162, 235, 0.6)',
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                        fill: false,
+                        borderWidth: 1,
+                        tension: 0.1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Producción de Energía Renovable (&)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Año'
+                        }
+                    }
+                }
+            }
+        })
+
+    }
+
 
 });
