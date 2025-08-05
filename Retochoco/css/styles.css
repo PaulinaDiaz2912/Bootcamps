@@ -1,0 +1,23 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background-color:#f1fcfc;
+    text-align: center;
+}
+
+#Empresa{
+    background-color: rgb(192, 252, 252);
+}
+
+#Edad{
+    background-color: rgb(192, 252, 252);
+}
+
+#Estado{
+    background-color: rgb(192, 252, 252);
+}
+
+table{
+   margin-left: 90px;
+    background-color: white;
+    border-color: black;
+}
