@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
       plugins: {
         title: {
           display: true,
-          text: 'Energía Solar en Bogotá (2015–2023)'
+          text: 'Energía Renovable en Bogotá (2015–2023)'
         },
         legend: {
           position: 'bottom'
